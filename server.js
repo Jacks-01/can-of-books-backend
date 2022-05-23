@@ -30,7 +30,7 @@ app.get('/books', async (req, res) => {
     filterQuery.location = req.query.location;
 
   }
-  const books = await Books.find(filterQuery);
+  const books = await Book.find(filterQuery);
   res.send(books);
 
 
@@ -39,7 +39,7 @@ app.get('/books', async (req, res) => {
 
 app.get('/test', (req, res) => {
 
-  req.send('test request received');
+  res.send('test request received');
 
 });
 
