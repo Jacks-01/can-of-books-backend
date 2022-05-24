@@ -3,6 +3,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 
 // sets up mongoose and our book schema to go in our mongoDB
 const mongoose = require('mongoose');
@@ -11,6 +12,8 @@ const Book = require('./models/book');
 // idk what this does lol
 const app = express();
 app.use(cors());
+app.use(bodyParser.urlencoded({ extended: false}));
+app.use(bodyParser.json());
 
 //this is our port numbe from the env file
 const PORT = process.env.PORT || 3001;
@@ -44,6 +47,30 @@ app.get('/books', async (req, res) => {
 
 });
 
+// Create a new book record
+app.post('/books', async (req, res) => {
+  try {
+    console.log(`Creating a new book: ${req.body}`);
+    const newBook = await Book.create(req.body);
+    res.send(newBook);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error creating a book');
+  }
+});
+
+app.delete('/books/:id', async (req, res) => {
+  const id = req.params.id;
+  console.log(`Delete book with id ${id}`);
+  try {
+    await Book.findByIdAndDelete(id);
+    res.status(204).send('Success');
+  } catch (error) {
+    console.error(error);
+    res.status(404).send(`Unable to delete book with id: ${id}`)
+    
+  }
+});
 
 
 app.get('/test', (req, res) => {
