@@ -50,8 +50,9 @@ app.get('/books', async (req, res) => {
 // Create a new book record
 app.post('/books', async (req, res) => {
   try {
-    console.log(`Creating a new book: ${req.body}`);
-    const newBook = await Book.create(req.body);
+    console.log(`Creating a new book: ${JSON.stringify(req.body)}`);
+    const newBook = await Book.create(req.body.newBook);
+    
     res.send(newBook);
   } catch (error) {
     console.error(error);
