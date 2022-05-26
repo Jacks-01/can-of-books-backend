@@ -39,12 +39,9 @@ app.get('/books', async (req, res) => {
   const filterQuery = {};
   if (req.query.title) {
     filterQuery.title = req.query.title;
-
   }
   const books = await Book.find(filterQuery);
   res.send(books);
-
-
 });
 
 // Create a new book record
