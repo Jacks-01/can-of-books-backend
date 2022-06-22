@@ -71,10 +71,16 @@ app.delete('/books/:id', async (req, res) => {
 });
 
 
-app.get('/test', (req, res) => {
+app.patch('/books/:id', async (req, res) => {
+  const id = req.params.id;
 
-  res.send('test request received');
-
-});
+  console.log(`Updated book with id ${id}, , Query params: ${JSON.stringify(req.body)}`);
+  try {
+    let updatedBook = await Book.findByIdAndUpdate(id, req.body)
+    res.status(200).send(`book has been updated, ${updatedBook}`)
+  } catch (error) {
+    console.error(error)
+  } 
+})
 
 app.listen(PORT, () => console.log(`listening on ${PORT}`));
